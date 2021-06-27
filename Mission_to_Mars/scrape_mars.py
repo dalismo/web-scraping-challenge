@@ -9,7 +9,7 @@ def initiate_browser():
     executable_path = {'executable_path': ChromeDriverManager().install()}
     browser = Browser('chrome', **executable_path, headless=False)
 
-mars_information = {}
+mars_info = {}
 
 # NASA Mars News
 
@@ -27,8 +27,8 @@ def scrape_info():
     news_title = soup.find('div', class_='content_title').get_text()
     news_p = soup.find('div', class_='article_teaser_body').get_text()
 
-    mars_information ["new_title"] = news_title
-    mars_information ["news paragraph"] = news_p
+    mars_info ["new_title"] = news_title
+    mars_info ["news paragraph"] = news_p
 
 # JPL Featured Image
     image_url = "https://spaceimages-mars.com/"
@@ -41,7 +41,7 @@ def scrape_info():
 
     image_url = image_url + featured_image_url 
 
-    mars_information["image_url"] = image_url
+    mars_info ["image_url"] = image_url
 
 # Mars Facts
     mars_facts_url = "https://galaxyfacts-mars.com/"
@@ -55,7 +55,7 @@ def scrape_info():
 
     html_table = df.to_html(table_id="html_tbl_css",justify='left',index=False)
 
-    mars_information["mars_facts"] = html_table
+    mars_info ["mars_facts"] = html_table
 
 # Mars Hemispheres
     hemis_url = "https://marshemispheres.com/"
@@ -78,9 +78,9 @@ def scrape_info():
         soup = BeautifulSoup( partial_img_html, 'html.parser')
         img_url = hemispheres_url + soup.find('img', class_='wide-image')['src']
         hemi_image_urls.append({"title" : title, "img_url" : img_url})
-        mars_information["hemispheres_info"] = hemi_image_urls
+        mars_info ["hemispheres_info"] = hemi_image_urls
     
     # Quit the browser
     browser.quit()
 
-    return mars_information
+    return mars_info
