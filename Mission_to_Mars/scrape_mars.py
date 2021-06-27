@@ -3,20 +3,20 @@ from bs4 import BeautifulSoup
 from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
 import requests
+import pymongo
+from flask import Flask, render_template, redirect
+from flask_pymongo import PyMongo
+import pandas as pd
 
 
 def initiate_browser():
     executable_path = {'executable_path': ChromeDriverManager().install()}
-    browser = Browser('chrome', **executable_path, headless=False)
-
-mars_info = {}
-
-# NASA Mars News
-
+    return browser('chrome', **executable_path, headless=False)
 
 def scrape_info():
 # NASA Mars News
     browser = initiate_browser()
+    mars_info={}
 
     url = "https://redplanetscience.com/"
     browser.visit(url)  
@@ -26,9 +26,6 @@ def scrape_info():
 
     news_title = soup.find('div', class_='content_title').get_text()
     news_p = soup.find('div', class_='article_teaser_body').get_text()
-
-    mars_info ["new_title"] = news_title
-    mars_info ["news paragraph"] = news_p
 
 # JPL Featured Image
     image_url = "https://spaceimages-mars.com/"
@@ -41,8 +38,6 @@ def scrape_info():
 
     image_url = image_url + featured_image_url 
 
-    mars_info ["image_url"] = image_url
-
 # Mars Facts
     mars_facts_url = "https://galaxyfacts-mars.com/"
     browser.visit(mars_facts_url)
@@ -54,8 +49,6 @@ def scrape_info():
     df.columns = ['Description', 'Stats']
 
     html_table = df.to_html(table_id="html_tbl_css",justify='left',index=False)
-
-    mars_info ["mars_facts"] = html_table
 
 # Mars Hemispheres
     hemis_url = "https://marshemispheres.com/"
@@ -80,6 +73,13 @@ def scrape_info():
         hemi_image_urls.append({"title" : title, "img_url" : img_url})
         mars_info ["hemispheres_info"] = hemi_image_urls
     
+    mars_info={
+        "news_title":news_title,
+        "news_p":news_p,
+        "featured_image_url":image_url,
+        "fact_table":html_table,
+        "hemisphere_images":hemi_image_urls
+    }
     # Quit the browser
     browser.quit()
 
