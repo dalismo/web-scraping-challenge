@@ -1,4 +1,4 @@
-from splinter import Browser, browser
+from splinter import Browser
 from bs4 import BeautifulSoup
 from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
@@ -11,12 +11,12 @@ import pandas as pd
 
 def initiate_browser():
     executable_path = {'executable_path': ChromeDriverManager().install()}
-    return browser('chrome', **executable_path, headless=False)
+    return Browser('chrome', **executable_path, headless=False)
 
 def scrape_info():
 # NASA Mars News
     browser = initiate_browser()
-    mars_info={}
+    mars_dict={}
 
     url = "https://redplanetscience.com/"
     browser.visit(url)  
@@ -71,9 +71,9 @@ def scrape_info():
         soup = BeautifulSoup( partial_img_html, 'html.parser')
         img_url = hemispheres_url + soup.find('img', class_='wide-image')['src']
         hemi_image_urls.append({"title" : title, "img_url" : img_url})
-        mars_info ["hemispheres_info"] = hemi_image_urls
+        mars_dict ["hemispheres_info"] = hemi_image_urls
     
-    mars_info={
+    mars_dict={
         "news_title":news_title,
         "news_p":news_p,
         "featured_image_url":image_url,
@@ -83,4 +83,4 @@ def scrape_info():
     # Quit the browser
     browser.quit()
 
-    return mars_info
+    return mars_dict
