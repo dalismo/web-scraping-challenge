@@ -9,15 +9,15 @@ mongo = PyMongo(app, uri="mongodb://localhost:27017/mars_app")
 
 @app.route("/")
 def home():
-    mars_info= mongo.db.mars_info.find_one()
-    return render_template("index.html", mars=mars_info)
+    mars_dict= mongo.db.mars_dict.find_one()
+    return render_template("index.html", mars=mars_dict)
 
 
 @app.route("/scrape")
 def scrape():
-    mars_info= mongo.db.mars_info
+    mars_dict= mongo.db.mars_dict
     mars_data= scrape_mars.scrape()
-    mars_info.update({}, mars_data, upsert=True)
+    mars_dict.update({}, mars_data, upsert=True)
     return redirect("/", code=302)
 
 
