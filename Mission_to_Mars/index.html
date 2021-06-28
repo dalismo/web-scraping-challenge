@@ -32,8 +32,8 @@
         </br>
         <div class="row">
             <div class="col-md-12">
-                <h4>{{mars_info.news_title}}</h4>
-                <p>{{mars_info.news_p}}</p>
+                <h4>{{mars_dict.news_title}}</h4>
+                <p>{{mars_dict.news_p}}</p>
             </div>
         </div>
         <hr>
@@ -41,14 +41,14 @@
             <div class="col-md-8 border">
                 <h2 class=""><u>Featured Mars Image</u></h2>
                 </br>
-                <img class="col-md-12 border" src="{{mars.image_url}}" alt="Features Mars Image">
+                <img class="col-md-12 border" src="{{mars_dict.hemisphere_images}}" alt="Features Mars Image">
             </div>
             <div class="col-md-4">
 
                 </br>
                 <div class="card">
                     <h3>Mars Facts</h3>
-                    {{ mars_info.fact_table | safe}}
+                    {{ mars_dict.fact_table | safe}}
                 </div>
             </div>
         </div>
