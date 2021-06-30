@@ -13,7 +13,7 @@ def initiate_browser():
     executable_path = {'executable_path': ChromeDriverManager().install()}
     return Browser('chrome', **executable_path, headless=False)
 
-def scrape_info():
+def scrape():
 # NASA Mars News
     browser = initiate_browser()
     mars_dict={}
